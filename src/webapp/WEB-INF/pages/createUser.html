@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div>
+
+    <div>
+        <form th:method="POST" th:action="@{/}" th:object="${user}">
+            <!--            <p th:if="${errorsList!= null}">-->
+            <!--            <p class="errorMessage" th:each="error: ${errorsList}"-->
+            <!--               th:text="${error.getField()+' '+error.getDefaultMessage()}"></p>-->
+            <!--            </p>-->
+            <label for="name">Name</label>
+            <br>
+            <input  th:field="*{name}" type="text" id="name"/>
+            <br><br>
+            <label for="lastName">LastName</label>
+            <br>
+            <input  th:field="*{lastName}" type="text" id="lastName"/>
+            <br><br>
+            <label for="age">Age</label>
+            <br>
+            <input  th:field="*{age}" type="number" id="age"/>
+            <br><br>
+            <label for="height">Height</label>
+            <br>
+            <input  th:field="*{height}" type="number" id="height"/>
+            <br><br>
+            <label for="weight">Weight</label>
+            <br>
+            <input  th:field="*{weight}" type="number" id="weight"/>
+
+            <p>
+                <input type="submit" value="Create User"/>
+            </p>
+        </form>
+    </div>
+
+
+</div>
+</body>
+</html>
