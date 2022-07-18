@@ -1,35 +1,25 @@
-package frontend.controllers;
+package backend.controllers;
 
-import backend.config.AppConfigBack;
+import backend.model.User;
 import backend.service.UserService;
-import frontend.model.User;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Controller
+@RequestMapping("/")
 public class IndexController {
-//    private final UserService userService;
+    private final UserService userService;
 
-    AnnotationConfigApplicationContext context =
-            new AnnotationConfigApplicationContext(AppConfigBack.class);
-
-    UserService userService = context.getBean(UserService.class);
-//    @Autowired
-//    public IndexController(UserServiceImpl userService) {
-//        this.userService = userService;
-//    }
+    public IndexController(UserService userService) {
+        this.userService = userService;
+    }
 
 
     @GetMapping(value = "/")
     public String index(Model model) {
-        List<User> userList = new ArrayList<>();
-        userList = userService.listUsers();
-        model.addAttribute("users", userList);
+
+        model.addAttribute("users", userService.listUsers());
 
         return "index";
     }

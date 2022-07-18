@@ -1,6 +1,5 @@
 package backend.config;
 
-import frontend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,8 +8,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -25,6 +22,7 @@ import java.util.Properties;
 @PropertySource("classpath:db.properties")
 @EnableTransactionManagement
 @ComponentScan(value = "backend")
+
 public class AppConfigBack {
 
     @Autowired
@@ -42,56 +40,54 @@ public class AppConfigBack {
 
     private Properties getHibernateProperties() {
         Properties props = new Properties();
+//        props.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+//        props.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+
         props.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
         props.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
         return props;
     }
 
+//    @Bean
+//    public LocalSessionFactoryBean getSessionFactory() {
+//        LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
+//        factoryBean.setDataSource(getDataSource());
+//        factoryBean.setHibernateProperties(getHibernateProperties());
+//        factoryBean.setAnnotatedClasses(User.class);
+//        return factoryBean;
+//    }
+//    @Bean
+//    public HibernateTransactionManager getTransactionManager() {
+//        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+//        transactionManager.setSessionFactory(getSessionFactory().getObject());
+//        return transactionManager;
+//    }
+
     @Bean
-    public LocalSessionFactoryBean getSessionFactory() {
-        LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
-        factoryBean.setDataSource(getDataSource());
-        factoryBean.setHibernateProperties(getHibernateProperties());
-        factoryBean.setAnnotatedClasses(User.class);
-        return factoryBean;
+    public LocalContainerEntityManagerFactoryBean getEntityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean em
+                = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(getDataSource());
+        em.setPackagesToScan(new String[]{"backend.model"});
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        em.setJpaVendorAdapter(vendorAdapter);
+        em.setJpaProperties(getHibernateProperties());
+        return em;
     }
+
+
     @Bean
-    public HibernateTransactionManager getTransactionManager() {
-        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-        transactionManager.setSessionFactory(getSessionFactory().getObject());
+    public PlatformTransactionManager transactionManager() {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(getEntityManagerFactory().getObject());
+
         return transactionManager;
     }
 
-//    @Bean
-//    public LocalContainerEntityManagerFactoryBean getEntityManagerFactory() {
-//        LocalContainerEntityManagerFactoryBean em
-//                = new LocalContainerEntityManagerFactoryBean();
-//        em.setDataSource(getDataSource());
-//        em.setPackagesToScan("src.main.java.frontend.model");
-//
-//        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-//
-//        em.setJpaVendorAdapter(vendorAdapter);
-//        em.setJpaProperties(getHibernateProperties());
-//
-//        return em;
-//    }
-
-
-
-//    @Bean
-//    public PlatformTransactionManager transactionManager() {
-//        JpaTransactionManager transactionManager = new JpaTransactionManager();
-//        transactionManager.setEntityManagerFactory(getEntityManagerFactory().getObject());
-//
-//        return transactionManager;
-//    }
-//
-//    @Bean
-//    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
-//        return new PersistenceExceptionTranslationPostProcessor();
-//    }
-
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+        return new PersistenceExceptionTranslationPostProcessor();
+    }
 
 
 }

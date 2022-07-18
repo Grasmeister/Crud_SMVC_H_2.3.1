@@ -1,7 +1,7 @@
 package backend.dao;
 
 
-import frontend.model.User;
+import backend.model.User;
 
 import java.util.List;
 

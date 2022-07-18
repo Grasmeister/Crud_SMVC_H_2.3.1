@@ -1,18 +1,15 @@
 package backend.dao;
 
 
-import frontend.model.User;
+import backend.model.User;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Repository
-@Transactional(readOnly = true)
+@Component
 public class UserDAOEntityManagerImpl implements UserDAO {
 
     @PersistenceContext
@@ -26,18 +23,15 @@ public class UserDAOEntityManagerImpl implements UserDAO {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @Transactional
     public List<User> listUsers() {
-        TypedQuery<User> query = entityManager.createQuery("select u from User u", User.class);
-        return query.getResultList();
+        return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
     }
 
     @Override
+    @Transactional
     public User findUserById(Long id) {
-        TypedQuery<User> query = entityManager.createQuery(
-                "select u from User u where u.id = :id", User.class);
-        query.setParameter("id", id);
-        return query.getResultList().stream().findAny().orElse(null);
+        return entityManager.find(User.class, id);
     }
 
     @Override
@@ -53,19 +47,18 @@ public class UserDAOEntityManagerImpl implements UserDAO {
 
         entityManager.merge(anotherUser);
 
-//        sessionFactory.getCurrentSession().update(anotherUser);
 
     }
-//    sessionFactory.getCurrentSession().getSession().get(User.class, id);
 
 
     @Override
+    @Transactional
     public void removeUserById(Long id) {
-
-//        sessionFactory.getCurrentSession().delete(findUserById(id));
+        entityManager.remove(findUserById(id));
     }
 
     @Override
+    @Transactional
     public void cleanUsersTable() {
 //        sessionFactory.getCurrentSession().createSQLQuery("delete from users").executeUpdate();
 

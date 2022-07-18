@@ -1,4 +1,4 @@
-package frontend.config;
+package backend.config;
 
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;

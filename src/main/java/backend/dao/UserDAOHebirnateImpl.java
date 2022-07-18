@@ -1,20 +1,18 @@
 package backend.dao;
 
 
-import frontend.model.User;
+import backend.model.User;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Repository
+//@Repository
 public class UserDAOHebirnateImpl implements UserDAO {
 
     private SessionFactory sessionFactory;
 
-    @Autowired
+    //    @Autowired
     public UserDAOHebirnateImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
