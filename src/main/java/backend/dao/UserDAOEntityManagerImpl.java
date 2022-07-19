@@ -17,25 +17,25 @@ public class UserDAOEntityManagerImpl implements UserDAO {
 
 
     @Override
-    @Transactional
+//    @Transactional
     public void add(User user) {
         entityManager.persist(user);
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public List<User> listUsers() {
         return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public User findUserById(Long id) {
         return entityManager.find(User.class, id);
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public void updateUserById(Long id, User updateuser) {
         User anotherUser = findUserById(id);
 
@@ -52,13 +52,13 @@ public class UserDAOEntityManagerImpl implements UserDAO {
 
 
     @Override
-    @Transactional
+//    @Transactional
     public void removeUserById(Long id) {
         entityManager.remove(findUserById(id));
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public void cleanUsersTable() {
 //        sessionFactory.getCurrentSession().createSQLQuery("delete from users").executeUpdate();
 
