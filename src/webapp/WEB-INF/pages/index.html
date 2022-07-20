@@ -25,14 +25,14 @@
             <tbody>
 
             <tr th:each="user: ${users}">
-                <td ><a th:href="@{/{id}(id=${user.getId()})}" th:text="${user.getId()}"></a></td>
+                <td><a th:href="@{/{id}(id=${user.getId()})}" th:text="${user.getId()}"></a></td>
                 <td th:text="${user.getName()}"></td>
                 <td th:text="${user.getLastName()}"></td>
                 <td th:text="${user.getAge()}"></td>
                 <td th:text="${user.getHeight()}"></td>
                 <td th:text="${user.getWeight()}"></td>
-                <td ><a th:href="@{/{id}/updateUser(id=${user.getId()})}" >Edit</a></td>
-                <td >
+                <td><a th:href="@{/{id}/updateUser(id=${user.getId()})}">Edit</a></td>
+                <td>
                     <div>
                         <form th:method="DELETE" th:action="@{/{id}(id=${user.getId()})}">
 
@@ -41,9 +41,9 @@
                             </p>
                         </form>
                     </div>
-<!--                    <form th:method="DELETE" th:action="@{/{id}(id=${user.getid()})}" >-->
-<!--                        <input type="submit" value="Delete"/>-->
-<!--                    </form>-->
+                    <!--                    <form th:method="DELETE" th:action="@{/{id}(id=${user.getid()})}" >-->
+                    <!--                        <input type="submit" value="Delete"/>-->
+                    <!--                    </form>-->
 
                 </td>
 
@@ -52,9 +52,8 @@
         </table>
     </div>
     <div>
-       <a th:href="createUser">Create User</a>
+        <a th:href="createUser">Create User</a>
     </div>
-
 
 
 </div>

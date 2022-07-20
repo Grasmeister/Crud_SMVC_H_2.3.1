@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-//@RequestMapping("/")
 public class UserController {
     private final UserService userService;
 
@@ -16,11 +15,9 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/")
+    @GetMapping
     public String index(Model model) {
-
         model.addAttribute("users", userService.listUsers());
-
         return "index";
     }
 
@@ -36,25 +33,11 @@ public class UserController {
         return "/createUser";
     }
 
-
     @PostMapping()
-    public String createUser(@RequestParam("name") String name,
-                             @RequestParam("lastName") String lastname,
-                             @RequestParam("age") int age,
-                             @RequestParam("height") int height,
-                             @RequestParam("weight") int weight,
-                             Model model) {
-        User user = new User(name, lastname, age, height, weight);
+    public String createUser(@ModelAttribute("user") User user) {
         userService.add(user);
         return "redirect:/";
-
     }
-
-//    @PostMapping()
-//    public String createUser(@ModelAttribute("user") User user){
-//        userService.createUser(user);
-//        return "redirect:/";
-//    }
 
     @GetMapping("/{id}/updateUser")
     public String updateUser(Model model, @PathVariable("id") Long id) {

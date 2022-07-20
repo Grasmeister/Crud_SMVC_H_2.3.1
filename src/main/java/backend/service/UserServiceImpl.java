@@ -11,8 +11,6 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-//    UserDAOHebirnateImpl UserDAOEntityManagerImpl
-
     private UserDAO userDao;
 
     @Autowired
@@ -48,12 +46,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void removeUserById(Long id) {
         userDao.removeUserById(id);
-    }
-
-    @Override
-    @Transactional
-    public void cleanUsersTable() {
-        userDao.cleanUsersTable();
     }
 
 

@@ -16,5 +16,4 @@ public interface UserDAO {
 
     User findUserById(Long id);
 
-    void cleanUsersTable();
 }

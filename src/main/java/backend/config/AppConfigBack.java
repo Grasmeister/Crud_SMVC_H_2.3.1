@@ -1,6 +1,5 @@
 package backend.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -25,8 +24,11 @@ import java.util.Properties;
 
 public class AppConfigBack {
 
-    @Autowired
-    private Environment env;
+    private final Environment env;
+
+    public AppConfigBack(Environment env) {
+        this.env = env;
+    }
 
     @Bean
     public DataSource getDataSource() {
@@ -40,28 +42,11 @@ public class AppConfigBack {
 
     private Properties getHibernateProperties() {
         Properties props = new Properties();
-//        props.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-//        props.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-
         props.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
         props.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
         return props;
     }
 
-//    @Bean
-//    public LocalSessionFactoryBean getSessionFactory() {
-//        LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
-//        factoryBean.setDataSource(getDataSource());
-//        factoryBean.setHibernateProperties(getHibernateProperties());
-//        factoryBean.setAnnotatedClasses(User.class);
-//        return factoryBean;
-//    }
-//    @Bean
-//    public HibernateTransactionManager getTransactionManager() {
-//        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-//        transactionManager.setSessionFactory(getSessionFactory().getObject());
-//        return transactionManager;
-//    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean getEntityManagerFactory() {

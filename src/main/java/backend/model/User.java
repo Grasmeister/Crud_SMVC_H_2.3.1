@@ -88,14 +88,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        int result = 1;
-        result = name == null ? 0 : name.hashCode();
-        result = 31 * result + (lastName == null ? 0 : lastName.hashCode());
-        result = 31 * result + (age ^ (age >>> 32));
-        result = 31 * result + (height ^ (height >>> 32));
-        result = 31 * result + (weight ^ (weight >>> 32));
-        return result;
-//        return Objects.hash(name, lastName, age, height, weight);
+        return Objects.hash(name, lastName, age, height, weight);
     }
 
     @Override
